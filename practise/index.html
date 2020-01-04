@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Vue Js</title>
+    <link rel="stylesheet" href="custom.css">
+    <script src="vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input type="text" v-on:input="changeTitle">
+      <h1 v-once>{{ title }}</h1>
+      <p>{{ title }} - <a v-bind:href="link">Google</a></p>
+      <button v-on:click="increase(4)">Counter click</button>
+      <button v-on:click="counter++">Increase by one</button>
+      <p>{{ counter }}</p>
+      <p>{{ counter*3 > 20 ? "Greater then 20" : "Less then 20" }}</p>
+      <h4 v-html="finshedLink"></h4>
+      <p v-on:mouseover="updateCoordinate">Coordinates: {{x}}/{{y}} - <span v-on:mouseover.stop=""> Dead spot</span></p>
+      <input type="text" v-on:keyup.enter.space="alertMe">
+      <hr>
+      <input type="text" v-model="name">
+      <input type="text" v-model="color">
+      <input type="text" v-model="width">
+      <p>v-model- {{name}}</p>
+      <hr>
+      <div class="demo" @click="attachedRed = !attachedRed" :class="divClasses"></div>
+      <div class="demo" :class="{red: attachedRed}"></div>
+      <div class="demo" :class="color"></div>
+      <div class="demo" :style="{backgoundColor: color}"></div>
+      <div class="demo" :style="myStyle"></div>
+      <span v-for="n in 10">{{n}}<hr></span>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          title: "hello word!",
+          link: "http://google.com",
+          finshedLink: '<a href="http://google.com">Google testing finished link.</a>',
+          counter: 0,
+          x: 0,
+          y: 0,
+          name: 'max',
+          attachedRed: false,
+          color: 'red',
+          width: 100,
+        },
+        watch: {
+          counter: function(value) {
+            var vm = this;
+            setTimeout(function() {
+              vm.counter = 0;
+            }, 5000);
+          }
+        },
+        computed: {
+          divClasses: function() {
+            return {
+              red: !this.attachedRed,
+              blue1: !this.attachedRed,
+            }
+          },
+          myStyle: function() {
+            return {
+              backgoundColor: this.color,
+              width: this.width + 'px'
+            }
+          }
+        },
+        methods: {
+          changeTitle: function(event) {
+            this.title = event.target.value;
+          },
+          increase: function(step) {
+            this.counter +=step;
+          },
+          updateCoordinate: function(event) {
+            this.x = event.clientX;
+            this.y = evnet.clientY;
+          },
+          alertMe: function() {
+            alert('Alert!');
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
